@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.dm.mapper.ReviewHistoryMapper">
+    
+    <resultMap type="ReviewHistory" id="ReviewHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="action"    column="action"    />
+        <result property="actorId"    column="actor_id"    />
+        <result property="actorRole"    column="actor_role"    />
+        <result property="comment"    column="comment"    />
+        <result property="snapshotJson"    column="snapshot_json"    />
+        <result property="createAt"    column="create_at"    />
+    </resultMap>
+
+    <sql id="selectReviewHistoryVo">
+        select id, item_id, action, actor_id, actor_role, comment, snapshot_json, create_at from dm_review_history
+    </sql>
+
+    <select id="selectReviewHistoryList" parameterType="ReviewHistory" resultMap="ReviewHistoryResult">
+        <include refid="selectReviewHistoryVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="action != null  and action != ''"> and action = #{action}</if>
+            <if test="actorId != null "> and actor_id = #{actorId}</if>
+            <if test="actorRole != null  and actorRole != ''"> and actor_role = #{actorRole}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="snapshotJson != null  and snapshotJson != ''"> and snapshot_json = #{snapshotJson}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectReviewHistoryById" parameterType="Long" resultMap="ReviewHistoryResult">
+        <include refid="selectReviewHistoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertReviewHistory" parameterType="ReviewHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_review_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="action != null and action != ''">action,</if>
+            <if test="actorId != null">actor_id,</if>
+            <if test="actorRole != null">actor_role,</if>
+            <if test="comment != null">comment,</if>
+            <if test="snapshotJson != null">snapshot_json,</if>
+            <if test="createAt != null">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="action != null and action != ''">#{action},</if>
+            <if test="actorId != null">#{actorId},</if>
+            <if test="actorRole != null">#{actorRole},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="snapshotJson != null">#{snapshotJson},</if>
+            <if test="createAt != null">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReviewHistory" parameterType="ReviewHistory">
+        update dm_review_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="action != null and action != ''">action = #{action},</if>
+            <if test="actorId != null">actor_id = #{actorId},</if>
+            <if test="actorRole != null">actor_role = #{actorRole},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="snapshotJson != null">snapshot_json = #{snapshotJson},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReviewHistoryById" parameterType="Long">
+        delete from dm_review_history where id = #{id}
+    </delete>
+
+    <delete id="deleteReviewHistoryByIds" parameterType="String">
+        delete from dm_review_history where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

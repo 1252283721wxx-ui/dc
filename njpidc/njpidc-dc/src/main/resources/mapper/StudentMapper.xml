@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.mapper.StudentMapper">
+    
+    <resultMap type="Student" id="StudentResult">
+        <result property="stuNo"    column="stu_no"    />
+        <result property="stuName"    column="stu_name"    />
+        <result property="gender"    column="gender"    />
+        <result property="tel"    column="tel"    />
+        <result property="grade"    column="grade"    />
+        <result property="major"    column="major"    />
+    </resultMap>
+
+    <sql id="selectStudentVo">
+        select stu_no, stu_name, gender, tel, grade, major from dc_student
+    </sql>
+
+    <select id="selectStudentList" parameterType="Student" resultMap="StudentResult">
+        <include refid="selectStudentVo"/>
+        <where>  
+            <if test="stuNo != null  and stuNo != ''"> and stu_no = #{stuNo}</if>
+            <if test="stuName != null  and stuName != ''"> and stu_name like concat('%', #{stuName}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="grade != null "> and grade = #{grade}</if>
+            <if test="major != null  and major != ''"> and major = #{major}</if>
+        </where>
+    </select>
+    
+    <select id="selectStudentByStuNo" parameterType="String" resultMap="StudentResult">
+        <include refid="selectStudentVo"/>
+        where stu_no = #{stuNo}
+    </select>
+
+    <insert id="insertStudent" parameterType="Student">
+        insert into dc_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stuNo != null">stu_no,</if>
+            <if test="stuName != null">stu_name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="tel != null">tel,</if>
+            <if test="grade != null">grade,</if>
+            <if test="major != null">major,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stuNo != null">#{stuNo},</if>
+            <if test="stuName != null">#{stuName},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="major != null">#{major},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStudent" parameterType="Student">
+        update dc_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stuName != null">stu_name = #{stuName},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="major != null">major = #{major},</if>
+        </trim>
+        where stu_no = #{stuNo}
+    </update>
+
+    <delete id="deleteStudentByStuNo" parameterType="String">
+        delete from dc_student where stu_no = #{stuNo}
+    </delete>
+
+    <delete id="deleteStudentByStuNos" parameterType="String">
+        delete from dc_student where stu_no in 
+        <foreach item="stuNo" collection="array" open="(" separator="," close=")">
+            #{stuNo}
+        </foreach>
+    </delete>
+</mapper>

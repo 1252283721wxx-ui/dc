@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.dm.controller.mapper.TaskMapper">
+    
+    <resultMap type="Task" id="TaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="tableName"    column="table_name"    />
+        <result property="description"    column="description"    />
+        <result property="collectionType"    column="collection_type"    />
+        <result property="collectionCycle"    column="collection_cycle"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap id="TaskTaskDeptResult" type="Task" extends="TaskResult">
+        <collection property="dmTaskDeptList" ofType="TaskDept" column="task_id" select="selectTaskDeptList" />
+    </resultMap>
+
+    <resultMap type="TaskDept" id="TaskDeptResult">
+        <result property="detailId"    column="detail_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"   />
+        <result property="assignedUser"    column="assigned_user"    />
+        <result property="assignedDate"    column="assigned_date"    />
+        <result property="dueDate"    column="due_date"    />
+        <result property="priority"    column="priority"    />
+        <result property="progress"    column="progress"    />
+        <result property="detailStatus"    column="detail_status"    />
+        <result property="completionDate"    column="completion_date"    />
+        <result property="completionNote"    column="completion_note"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTaskVo">
+        select task_id, task_name, table_name, description, collection_type, collection_cycle, status, del_flag, create_by, create_time, update_by, update_time, remark from dm_task
+    </sql>
+
+    <select id="selectTaskList" parameterType="Task" resultMap="TaskTaskDeptResult">
+        <include refid="selectTaskVo"/>
+        <where>  
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="tableName != null  and tableName != ''"> and table_name like concat('%', #{tableName}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="collectionType != null  and collectionType != ''"> and collection_type = #{collectionType}</if>
+            <if test="collectionCycle != null  and collectionCycle != ''"> and collection_cycle = #{collectionCycle}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTaskByTaskId" parameterType="Long" resultMap="TaskTaskDeptResult">
+        select task_id, task_name, table_name, description, collection_type, collection_cycle, status, del_flag, create_by, create_time, update_by, update_time, remark
+        from dm_task
+        where task_id = #{taskId}
+    </select>
+
+    <select id="selectTaskDeptList" resultMap="TaskDeptResult">
+        select td.detail_id,
+               td.task_id,
+               td.dept_id,
+               d.dept_name,
+               td.assigned_user,
+               td.assigned_date,
+               td.due_date,
+               td.priority,
+               td.progress,
+               td.detail_status,
+               td.completion_date,
+               td.completion_note,
+               td.create_by,
+               td.create_time,
+               td.update_by,
+               td.update_time,
+               td.remark
+        from dm_task_dept td
+                 left join sys_dept d on td.dept_id = d.dept_id
+        where td.task_id = #{taskId}
+    </select>
+
+    <insert id="insertTask" parameterType="Task" useGeneratedKeys="true" keyProperty="taskId">
+        insert into dm_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">task_name,</if>
+            <if test="tableName != null">table_name,</if>
+            <if test="description != null">description,</if>
+            <if test="collectionType != null">collection_type,</if>
+            <if test="collectionCycle != null">collection_cycle,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">#{taskName},</if>
+            <if test="tableName != null">#{tableName},</if>
+            <if test="description != null">#{description},</if>
+            <if test="collectionType != null">#{collectionType},</if>
+            <if test="collectionCycle != null">#{collectionCycle},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTask" parameterType="Task">
+        update dm_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">task_name = #{taskName},</if>
+            <if test="tableName != null">table_name = #{tableName},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="collectionType != null">collection_type = #{collectionType},</if>
+            <if test="collectionCycle != null">collection_cycle = #{collectionCycle},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteTaskByTaskId" parameterType="Long">
+        delete from dm_task where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteTaskByTaskIds" parameterType="String">
+        delete from dm_task where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteTaskDeptByTaskIds" parameterType="String">
+        delete from dm_task_dept where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTaskDeptByTaskId" parameterType="Long">
+        delete from dm_task_dept where task_id = #{taskId}
+    </delete>
+
+    <insert id="batchTaskDept">
+        insert into dm_task_dept( detail_id, task_id, dept_id, assigned_user, assigned_date, due_date, priority, progress, detail_status, completion_date, completion_note, create_by, create_time, update_by, update_time, remark) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.detailId}, #{item.taskId}, #{item.deptId}, #{item.assignedUser}, #{item.assignedDate}, #{item.dueDate}, #{item.priority}, #{item.progress}, #{item.detailStatus}, #{item.completionDate}, #{item.completionNote}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.remark})
+        </foreach>
+    </insert>
+</mapper>

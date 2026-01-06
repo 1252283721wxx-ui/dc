@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.mapper.DcSchoolTeacherInfoMapper">
+    
+    <resultMap type="DcSchoolTeacherInfo" id="DcSchoolTeacherInfoResult">
+        <result property="id"    column="id"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="staffNo"    column="staff_no"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="nation"    column="nation"    />
+        <result property="education"    column="education"    />
+        <result property="degree"    column="degree"    />
+        <result property="staffType"    column="staff_type"    />
+        <result property="position"    column="position"    />
+        <result property="majorField"    column="major_field"    />
+        <result property="specialty"    column="specialty"    />
+        <result property="hasTeacherCert"    column="has_teacher_cert"    />
+        <result property="teacherCertOrg"    column="teacher_cert_org"    />
+        <result property="teacherCertDate"    column="teacher_cert_date"    />
+        <result property="professionalRank"    column="professional_rank"    />
+        <result property="professionalTitle"    column="professional_title"    />
+        <result property="professionalCertOrg"    column="professional_cert_org"    />
+        <result property="professionalCertDate"    column="professional_cert_date"    />
+        <result property="certLevel"    column="cert_level"    />
+        <result property="certName"    column="cert_name"    />
+        <result property="certOrg"    column="cert_org"    />
+        <result property="certDate"    column="cert_date"    />
+        <result property="isMajorTeacher"    column="is_major_teacher"    />
+        <result property="adminMajorName"    column="admin_major_name"    />
+        <result property="adminMajorCode"    column="admin_major_code"    />
+        <result property="adminMajorLevel"    column="admin_major_level"    />
+        <result property="adminMajorCategory"    column="admin_major_category"    />
+        <result property="isPublicCourseTeacher"    column="is_public_course_teacher"    />
+        <result property="publicCourseName"    column="public_course_name"    />
+        <result property="doubleQualification"    column="double_qualification"    />
+        <result property="teachingMaster"    column="teaching_master"    />
+        <result property="isFulltimeIdeological"    column="is_fulltime_ideological"    />
+        <result property="isParttimeIdeological"    column="is_parttime_ideological"    />
+        <result property="isFulltimeCounselor"    column="is_fulltime_counselor"    />
+        <result property="isParttimeCounselor"    column="is_parttime_counselor"    />
+        <result property="isFulltimePsychology"    column="is_fulltime_psychology"    />
+        <result property="isParttimePsychology"    column="is_parttime_psychology"    />
+        <result property="isMajorLeader"    column="is_major_leader"    />
+        <result property="majorLeaderYears"    column="major_leader_years"    />
+        <result property="majorGroupLeader"    column="major_group_leader"    />
+        <result property="majorGroupLeaderYears"    column="major_group_leader_years"    />
+        <result property="reporterName"    column="reporter_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="currentLevel"    column="current_level"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDcSchoolTeacherInfoVo">
+        select id, department_name, staff_no, name, gender, id_number, birthday, political_status, nation, education, degree, staff_type, position, major_field, specialty, has_teacher_cert, teacher_cert_org, teacher_cert_date, professional_rank, professional_title, professional_cert_org, professional_cert_date, cert_level, cert_name, cert_org, cert_date, is_major_teacher, admin_major_name, admin_major_code, admin_major_level, admin_major_category, is_public_course_teacher, public_course_name, double_qualification, teaching_master, is_fulltime_ideological, is_parttime_ideological, is_fulltime_counselor, is_parttime_counselor, is_fulltime_psychology, is_parttime_psychology, is_major_leader, major_leader_years, major_group_leader, major_group_leader_years, reporter_name, create_by, create_time, update_by, update_time, status, current_level, remark from dc_school_teacher_info
+    </sql>
+
+    <select id="selectDcSchoolTeacherInfoList" parameterType="DcSchoolTeacherInfo" resultMap="DcSchoolTeacherInfoResult">
+        <include refid="selectDcSchoolTeacherInfoVo"/>
+        <where>  
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="staffNo != null  and staffNo != ''"> and staff_no = #{staffNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="idNumber != null  and idNumber != ''"> and id_number = #{idNumber}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="politicalStatus != null  and politicalStatus != ''"> and political_status = #{politicalStatus}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="education != null  and education != ''"> and education = #{education}</if>
+            <if test="degree != null  and degree != ''"> and degree = #{degree}</if>
+            <if test="staffType != null  and staffType != ''"> and staff_type = #{staffType}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="majorField != null  and majorField != ''"> and major_field = #{majorField}</if>
+            <if test="specialty != null  and specialty != ''"> and specialty = #{specialty}</if>
+            <if test="hasTeacherCert != null  and hasTeacherCert != ''"> and has_teacher_cert = #{hasTeacherCert}</if>
+            <if test="teacherCertOrg != null  and teacherCertOrg != ''"> and teacher_cert_org = #{teacherCertOrg}</if>
+            <if test="teacherCertDate != null  and teacherCertDate != ''"> and teacher_cert_date = #{teacherCertDate}</if>
+            <if test="professionalRank != null  and professionalRank != ''"> and professional_rank = #{professionalRank}</if>
+            <if test="professionalTitle != null  and professionalTitle != ''"> and professional_title = #{professionalTitle}</if>
+            <if test="professionalCertOrg != null  and professionalCertOrg != ''"> and professional_cert_org = #{professionalCertOrg}</if>
+            <if test="professionalCertDate != null  and professionalCertDate != ''"> and professional_cert_date = #{professionalCertDate}</if>
+            <if test="certLevel != null  and certLevel != ''"> and cert_level = #{certLevel}</if>
+            <if test="certName != null  and certName != ''"> and cert_name like concat('%', #{certName}, '%')</if>
+            <if test="certOrg != null  and certOrg != ''"> and cert_org = #{certOrg}</if>
+            <if test="certDate != null  and certDate != ''"> and cert_date = #{certDate}</if>
+            <if test="isMajorTeacher != null  and isMajorTeacher != ''"> and is_major_teacher = #{isMajorTeacher}</if>
+            <if test="adminMajorName != null  and adminMajorName != ''"> and admin_major_name like concat('%', #{adminMajorName}, '%')</if>
+            <if test="adminMajorCode != null  and adminMajorCode != ''"> and admin_major_code = #{adminMajorCode}</if>
+            <if test="adminMajorLevel != null  and adminMajorLevel != ''"> and admin_major_level = #{adminMajorLevel}</if>
+            <if test="adminMajorCategory != null  and adminMajorCategory != ''"> and admin_major_category = #{adminMajorCategory}</if>
+            <if test="isPublicCourseTeacher != null  and isPublicCourseTeacher != ''"> and is_public_course_teacher = #{isPublicCourseTeacher}</if>
+            <if test="publicCourseName != null  and publicCourseName != ''"> and public_course_name like concat('%', #{publicCourseName}, '%')</if>
+            <if test="doubleQualification != null  and doubleQualification != ''"> and double_qualification = #{doubleQualification}</if>
+            <if test="teachingMaster != null  and teachingMaster != ''"> and teaching_master = #{teachingMaster}</if>
+            <if test="isFulltimeIdeological != null  and isFulltimeIdeological != ''"> and is_fulltime_ideological = #{isFulltimeIdeological}</if>
+            <if test="isParttimeIdeological != null  and isParttimeIdeological != ''"> and is_parttime_ideological = #{isParttimeIdeological}</if>
+            <if test="isFulltimeCounselor != null  and isFulltimeCounselor != ''"> and is_fulltime_counselor = #{isFulltimeCounselor}</if>
+            <if test="isParttimeCounselor != null  and isParttimeCounselor != ''"> and is_parttime_counselor = #{isParttimeCounselor}</if>
+            <if test="isFulltimePsychology != null  and isFulltimePsychology != ''"> and is_fulltime_psychology = #{isFulltimePsychology}</if>
+            <if test="isParttimePsychology != null  and isParttimePsychology != ''"> and is_parttime_psychology = #{isParttimePsychology}</if>
+            <if test="isMajorLeader != null  and isMajorLeader != ''"> and is_major_leader = #{isMajorLeader}</if>
+            <if test="majorLeaderYears != null "> and major_leader_years = #{majorLeaderYears}</if>
+            <if test="majorGroupLeader != null  and majorGroupLeader != ''"> and major_group_leader = #{majorGroupLeader}</if>
+            <if test="majorGroupLeaderYears != null "> and major_group_leader_years = #{majorGroupLeaderYears}</if>
+            <if test="reporterName != null  and reporterName != ''"> and reporter_name like concat('%', #{reporterName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="currentLevel != null "> and current_level = #{currentLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectDcSchoolTeacherInfoById" parameterType="Long" resultMap="DcSchoolTeacherInfoResult">
+        <include refid="selectDcSchoolTeacherInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDcSchoolTeacherInfo" parameterType="DcSchoolTeacherInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into dc_school_teacher_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">department_name,</if>
+            <if test="staffNo != null and staffNo != ''">staff_no,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="gender != null and gender != ''">gender,</if>
+            <if test="idNumber != null and idNumber != ''">id_number,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="politicalStatus != null and politicalStatus != ''">political_status,</if>
+            <if test="nation != null and nation != ''">nation,</if>
+            <if test="education != null and education != ''">education,</if>
+            <if test="degree != null and degree != ''">degree,</if>
+            <if test="staffType != null and staffType != ''">staff_type,</if>
+            <if test="position != null">position,</if>
+            <if test="majorField != null">major_field,</if>
+            <if test="specialty != null">specialty,</if>
+            <if test="hasTeacherCert != null and hasTeacherCert != ''">has_teacher_cert,</if>
+            <if test="teacherCertOrg != null">teacher_cert_org,</if>
+            <if test="teacherCertDate != null">teacher_cert_date,</if>
+            <if test="professionalRank != null">professional_rank,</if>
+            <if test="professionalTitle != null">professional_title,</if>
+            <if test="professionalCertOrg != null">professional_cert_org,</if>
+            <if test="professionalCertDate != null">professional_cert_date,</if>
+            <if test="certLevel != null">cert_level,</if>
+            <if test="certName != null">cert_name,</if>
+            <if test="certOrg != null">cert_org,</if>
+            <if test="certDate != null">cert_date,</if>
+            <if test="isMajorTeacher != null and isMajorTeacher != ''">is_major_teacher,</if>
+            <if test="adminMajorName != null">admin_major_name,</if>
+            <if test="adminMajorCode != null">admin_major_code,</if>
+            <if test="adminMajorLevel != null">admin_major_level,</if>
+            <if test="adminMajorCategory != null">admin_major_category,</if>
+            <if test="isPublicCourseTeacher != null and isPublicCourseTeacher != ''">is_public_course_teacher,</if>
+            <if test="publicCourseName != null">public_course_name,</if>
+            <if test="doubleQualification != null and doubleQualification != ''">double_qualification,</if>
+            <if test="teachingMaster != null and teachingMaster != ''">teaching_master,</if>
+            <if test="isFulltimeIdeological != null and isFulltimeIdeological != ''">is_fulltime_ideological,</if>
+            <if test="isParttimeIdeological != null and isParttimeIdeological != ''">is_parttime_ideological,</if>
+            <if test="isFulltimeCounselor != null and isFulltimeCounselor != ''">is_fulltime_counselor,</if>
+            <if test="isParttimeCounselor != null and isParttimeCounselor != ''">is_parttime_counselor,</if>
+            <if test="isFulltimePsychology != null and isFulltimePsychology != ''">is_fulltime_psychology,</if>
+            <if test="isParttimePsychology != null and isParttimePsychology != ''">is_parttime_psychology,</if>
+            <if test="isMajorLeader != null and isMajorLeader != ''">is_major_leader,</if>
+            <if test="majorLeaderYears != null">major_leader_years,</if>
+            <if test="majorGroupLeader != null and majorGroupLeader != ''">major_group_leader,</if>
+            <if test="majorGroupLeaderYears != null">major_group_leader_years,</if>
+            <if test="reporterName != null and reporterName != ''">reporter_name,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="currentLevel != null">current_level,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">#{departmentName},</if>
+            <if test="staffNo != null and staffNo != ''">#{staffNo},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="gender != null and gender != ''">#{gender},</if>
+            <if test="idNumber != null and idNumber != ''">#{idNumber},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="politicalStatus != null and politicalStatus != ''">#{politicalStatus},</if>
+            <if test="nation != null and nation != ''">#{nation},</if>
+            <if test="education != null and education != ''">#{education},</if>
+            <if test="degree != null and degree != ''">#{degree},</if>
+            <if test="staffType != null and staffType != ''">#{staffType},</if>
+            <if test="position != null">#{position},</if>
+            <if test="majorField != null">#{majorField},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="hasTeacherCert != null and hasTeacherCert != ''">#{hasTeacherCert},</if>
+            <if test="teacherCertOrg != null">#{teacherCertOrg},</if>
+            <if test="teacherCertDate != null">#{teacherCertDate},</if>
+            <if test="professionalRank != null">#{professionalRank},</if>
+            <if test="professionalTitle != null">#{professionalTitle},</if>
+            <if test="professionalCertOrg != null">#{professionalCertOrg},</if>
+            <if test="professionalCertDate != null">#{professionalCertDate},</if>
+            <if test="certLevel != null">#{certLevel},</if>
+            <if test="certName != null">#{certName},</if>
+            <if test="certOrg != null">#{certOrg},</if>
+            <if test="certDate != null">#{certDate},</if>
+            <if test="isMajorTeacher != null and isMajorTeacher != ''">#{isMajorTeacher},</if>
+            <if test="adminMajorName != null">#{adminMajorName},</if>
+            <if test="adminMajorCode != null">#{adminMajorCode},</if>
+            <if test="adminMajorLevel != null">#{adminMajorLevel},</if>
+            <if test="adminMajorCategory != null">#{adminMajorCategory},</if>
+            <if test="isPublicCourseTeacher != null and isPublicCourseTeacher != ''">#{isPublicCourseTeacher},</if>
+            <if test="publicCourseName != null">#{publicCourseName},</if>
+            <if test="doubleQualification != null and doubleQualification != ''">#{doubleQualification},</if>
+            <if test="teachingMaster != null and teachingMaster != ''">#{teachingMaster},</if>
+            <if test="isFulltimeIdeological != null and isFulltimeIdeological != ''">#{isFulltimeIdeological},</if>
+            <if test="isParttimeIdeological != null and isParttimeIdeological != ''">#{isParttimeIdeological},</if>
+            <if test="isFulltimeCounselor != null and isFulltimeCounselor != ''">#{isFulltimeCounselor},</if>
+            <if test="isParttimeCounselor != null and isParttimeCounselor != ''">#{isParttimeCounselor},</if>
+            <if test="isFulltimePsychology != null and isFulltimePsychology != ''">#{isFulltimePsychology},</if>
+            <if test="isParttimePsychology != null and isParttimePsychology != ''">#{isParttimePsychology},</if>
+            <if test="isMajorLeader != null and isMajorLeader != ''">#{isMajorLeader},</if>
+            <if test="majorLeaderYears != null">#{majorLeaderYears},</if>
+            <if test="majorGroupLeader != null and majorGroupLeader != ''">#{majorGroupLeader},</if>
+            <if test="majorGroupLeaderYears != null">#{majorGroupLeaderYears},</if>
+            <if test="reporterName != null and reporterName != ''">#{reporterName},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="currentLevel != null">#{currentLevel},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDcSchoolTeacherInfo" parameterType="DcSchoolTeacherInfo">
+        update dc_school_teacher_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">department_name = #{departmentName},</if>
+            <if test="staffNo != null and staffNo != ''">staff_no = #{staffNo},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null and gender != ''">gender = #{gender},</if>
+            <if test="idNumber != null and idNumber != ''">id_number = #{idNumber},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="politicalStatus != null and politicalStatus != ''">political_status = #{politicalStatus},</if>
+            <if test="nation != null and nation != ''">nation = #{nation},</if>
+            <if test="education != null and education != ''">education = #{education},</if>
+            <if test="degree != null and degree != ''">degree = #{degree},</if>
+            <if test="staffType != null and staffType != ''">staff_type = #{staffType},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="majorField != null">major_field = #{majorField},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="hasTeacherCert != null and hasTeacherCert != ''">has_teacher_cert = #{hasTeacherCert},</if>
+            <if test="teacherCertOrg != null">teacher_cert_org = #{teacherCertOrg},</if>
+            <if test="teacherCertDate != null">teacher_cert_date = #{teacherCertDate},</if>
+            <if test="professionalRank != null">professional_rank = #{professionalRank},</if>
+            <if test="professionalTitle != null">professional_title = #{professionalTitle},</if>
+            <if test="professionalCertOrg != null">professional_cert_org = #{professionalCertOrg},</if>
+            <if test="professionalCertDate != null">professional_cert_date = #{professionalCertDate},</if>
+            <if test="certLevel != null">cert_level = #{certLevel},</if>
+            <if test="certName != null">cert_name = #{certName},</if>
+            <if test="certOrg != null">cert_org = #{certOrg},</if>
+            <if test="certDate != null">cert_date = #{certDate},</if>
+            <if test="isMajorTeacher != null and isMajorTeacher != ''">is_major_teacher = #{isMajorTeacher},</if>
+            <if test="adminMajorName != null">admin_major_name = #{adminMajorName},</if>
+            <if test="adminMajorCode != null">admin_major_code = #{adminMajorCode},</if>
+            <if test="adminMajorLevel != null">admin_major_level = #{adminMajorLevel},</if>
+            <if test="adminMajorCategory != null">admin_major_category = #{adminMajorCategory},</if>
+            <if test="isPublicCourseTeacher != null and isPublicCourseTeacher != ''">is_public_course_teacher = #{isPublicCourseTeacher},</if>
+            <if test="publicCourseName != null">public_course_name = #{publicCourseName},</if>
+            <if test="doubleQualification != null and doubleQualification != ''">double_qualification = #{doubleQualification},</if>
+            <if test="teachingMaster != null and teachingMaster != ''">teaching_master = #{teachingMaster},</if>
+            <if test="isFulltimeIdeological != null and isFulltimeIdeological != ''">is_fulltime_ideological = #{isFulltimeIdeological},</if>
+            <if test="isParttimeIdeological != null and isParttimeIdeological != ''">is_parttime_ideological = #{isParttimeIdeological},</if>
+            <if test="isFulltimeCounselor != null and isFulltimeCounselor != ''">is_fulltime_counselor = #{isFulltimeCounselor},</if>
+            <if test="isParttimeCounselor != null and isParttimeCounselor != ''">is_parttime_counselor = #{isParttimeCounselor},</if>
+            <if test="isFulltimePsychology != null and isFulltimePsychology != ''">is_fulltime_psychology = #{isFulltimePsychology},</if>
+            <if test="isParttimePsychology != null and isParttimePsychology != ''">is_parttime_psychology = #{isParttimePsychology},</if>
+            <if test="isMajorLeader != null and isMajorLeader != ''">is_major_leader = #{isMajorLeader},</if>
+            <if test="majorLeaderYears != null">major_leader_years = #{majorLeaderYears},</if>
+            <if test="majorGroupLeader != null and majorGroupLeader != ''">major_group_leader = #{majorGroupLeader},</if>
+            <if test="majorGroupLeaderYears != null">major_group_leader_years = #{majorGroupLeaderYears},</if>
+            <if test="reporterName != null and reporterName != ''">reporter_name = #{reporterName},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="currentLevel != null">current_level = #{currentLevel},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDcSchoolTeacherInfoById" parameterType="Long">
+        delete from dc_school_teacher_info where id = #{id}
+    </delete>
+
+    <delete id="deleteDcSchoolTeacherInfoByIds" parameterType="String">
+        delete from dc_school_teacher_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

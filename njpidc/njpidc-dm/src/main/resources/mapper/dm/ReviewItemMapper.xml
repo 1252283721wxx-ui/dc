@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.dm.mapper.ReviewItemMapper">
+    
+    <resultMap type="ReviewItem" id="ReviewItemResult">
+        <result property="id"    column="id"    />
+        <result property="tableName"    column="table_name"    />
+        <result property="pkValue"    column="pk_value"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="status"    column="status"    />
+        <result property="version"    column="version"    />
+        <result property="dataHash"    column="data_hash"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createAt"    column="create_at"    />
+        <result property="updateAt"    column="update_at"    />
+    </resultMap>
+
+    <sql id="selectReviewItemVo">
+        select id, table_name, pk_value, dept_id, status, version, data_hash, create_by, create_at, update_at from dm_review_item
+    </sql>
+
+    <select id="selectReviewItemList" parameterType="ReviewItem" resultMap="ReviewItemResult">
+        <include refid="selectReviewItemVo"/>
+        <where>  
+            <if test="tableName != null  and tableName != ''"> and table_name like concat('%', #{tableName}, '%')</if>
+            <if test="pkValue != null  and pkValue != ''"> and pk_value = #{pkValue}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="version != null "> and version = #{version}</if>
+            <if test="dataHash != null  and dataHash != ''"> and data_hash = #{dataHash}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+            <if test="updateAt != null "> and update_at = #{updateAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectReviewItemById" parameterType="Long" resultMap="ReviewItemResult">
+        <include refid="selectReviewItemVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertReviewItem" parameterType="ReviewItem" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_review_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tableName != null and tableName != ''">table_name,</if>
+            <if test="pkValue != null and pkValue != ''">pk_value,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="version != null">version,</if>
+            <if test="dataHash != null">data_hash,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createAt != null">create_at,</if>
+            <if test="updateAt != null">update_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tableName != null and tableName != ''">#{tableName},</if>
+            <if test="pkValue != null and pkValue != ''">#{pkValue},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="version != null">#{version},</if>
+            <if test="dataHash != null">#{dataHash},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createAt != null">#{createAt},</if>
+            <if test="updateAt != null">#{updateAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReviewItem" parameterType="ReviewItem">
+        update dm_review_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tableName != null and tableName != ''">table_name = #{tableName},</if>
+            <if test="pkValue != null and pkValue != ''">pk_value = #{pkValue},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="dataHash != null">data_hash = #{dataHash},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+            <if test="updateAt != null">update_at = #{updateAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReviewItemById" parameterType="Long">
+        delete from dm_review_item where id = #{id}
+    </delete>
+
+    <delete id="deleteReviewItemByIds" parameterType="String">
+        delete from dm_review_item where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

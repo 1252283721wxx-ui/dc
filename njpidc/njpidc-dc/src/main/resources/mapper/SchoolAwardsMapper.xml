@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.mapper.SchoolAwardsMapper">
+    
+    <resultMap type="SchoolAwards" id="SchoolAwardsResult">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="category"    column="category"    />
+        <result property="level"    column="level"    />
+        <result property="grade"    column="grade"    />
+        <result property="awardUnit"    column="award_unit"    />
+        <result property="awardDate"    column="award_date"    />
+        <result property="participants"    column="participants"    />
+        <result property="remark"    column="remark"    />
+        <result property="reporterName"    column="reporter_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag" column="del_flag" />
+        <result property="reviewStatus" column="review_status" />
+        <result property="itemId" column="item_id" />
+
+    </resultMap>
+
+    <sql id="selectSchoolAwardsVo">
+        select id, project_name, category, level, grade, award_unit, award_date, participants, remark, reporter_name, create_by, create_time, update_by, update_time, del_flag from dc_school_awards
+    </sql>
+
+    <select id="selectSchoolAwardsList" parameterType="SchoolAwards" resultMap="SchoolAwardsResult">
+        <include refid="selectSchoolAwardsVo"/>
+        <where>  
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="awardUnit != null  and awardUnit != ''"> and award_unit = #{awardUnit}</if>
+            <if test="awardDate != null  and awardDate != ''"> and award_date = #{awardDate}</if>
+            <if test="participants != null  and participants != ''"> and participants = #{participants}</if>
+            <if test="reporterName != null  and reporterName != ''"> and reporter_name like concat('%', #{reporterName}, '%')</if>
+            <if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolAwardsById" parameterType="Long" resultMap="SchoolAwardsResult">
+        <include refid="selectSchoolAwardsVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectSchoolAwardsByIds" parameterType="Long" resultMap="SchoolAwardsResult">
+        <include refid="selectSchoolAwardsVo"/> where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insertSchoolAwards" parameterType="SchoolAwards" useGeneratedKeys="true" keyProperty="id">
+        insert into dc_school_awards
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectName != null and projectName != ''">project_name,</if>
+            <if test="category != null and category != ''">category,</if>
+            <if test="level != null and level != ''">level,</if>
+            <if test="grade != null and grade != ''">grade,</if>
+            <if test="awardUnit != null and awardUnit != ''">award_unit,</if>
+            <if test="awardDate != null and awardDate != ''">award_date,</if>
+            <if test="participants != null and participants != ''">participants,</if>
+            <if test="remark != null">remark,</if>
+            <if test="reporterName != null and reporterName != ''">reporter_name,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="category != null and category != ''">#{category},</if>
+            <if test="level != null and level != ''">#{level},</if>
+            <if test="grade != null and grade != ''">#{grade},</if>
+            <if test="awardUnit != null and awardUnit != ''">#{awardUnit},</if>
+            <if test="awardDate != null and awardDate != ''">#{awardDate},</if>
+            <if test="participants != null and participants != ''">#{participants},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="reporterName != null and reporterName != ''">#{reporterName},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolAwards" parameterType="SchoolAwards">
+        update dc_school_awards
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="category != null and category != ''">category = #{category},</if>
+            <if test="level != null and level != ''">level = #{level},</if>
+            <if test="grade != null and grade != ''">grade = #{grade},</if>
+            <if test="awardUnit != null and awardUnit != ''">award_unit = #{awardUnit},</if>
+            <if test="awardDate != null and awardDate != ''">award_date = #{awardDate},</if>
+            <if test="participants != null and participants != ''">participants = #{participants},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="reporterName != null and reporterName != ''">reporter_name = #{reporterName},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolAwardsById" parameterType="Long">
+        delete from dc_school_awards where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolAwardsByIds" parameterType="String">
+        delete from dc_school_awards where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

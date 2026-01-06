@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.mapper.DcExternalTeacherInfoMapper">
+    
+    <resultMap type="DcExternalTeacherInfo" id="DcExternalTeacherInfoResult">
+        <result property="id"    column="id"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="staffNo"    column="staff_no"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="nation"    column="nation"    />
+        <result property="education"    column="education"    />
+        <result property="degree"    column="degree"    />
+        <result property="position"    column="position"    />
+        <result property="staffType"    column="staff_type"    />
+        <result property="workUnit"    column="work_unit"    />
+        <result property="workStartDate"    column="work_start_date"    />
+        <result property="talentLevel"    column="talent_level"    />
+        <result property="talentTitle"    column="talent_title"    />
+        <result property="signStatus"    column="sign_status"    />
+        <result property="professionalRank"    column="professional_rank"    />
+        <result property="professionalTitle"    column="professional_title"    />
+        <result property="professionalCertOrg"    column="professional_cert_org"    />
+        <result property="professionalCertDate"    column="professional_cert_date"    />
+        <result property="certLevel"    column="cert_level"    />
+        <result property="certName"    column="cert_name"    />
+        <result property="certOrg"    column="cert_org"    />
+        <result property="certDate"    column="cert_date"    />
+        <result property="hasAdminMajor"    column="has_admin_major"    />
+        <result property="adminMajorName"    column="admin_major_name"    />
+        <result property="adminMajorCode"    column="admin_major_code"    />
+        <result property="adminMajorLevel"    column="admin_major_level"    />
+        <result property="adminMajorCategory"    column="admin_major_category"    />
+        <result property="isMajorLeader"    column="is_major_leader"    />
+        <result property="leaderYears"    column="leader_years"    />
+        <result property="reporterName"    column="reporter_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
+        <result property="currentLevel"    column="current_level"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectDcExternalTeacherInfoVo">
+        select id, department_name, staff_no, name, gender, birthday, political_status, nation, education, degree, position, staff_type, work_unit, work_start_date, talent_level, talent_title, sign_status, professional_rank, professional_title, professional_cert_org, professional_cert_date, cert_level, cert_name, cert_org, cert_date, has_admin_major, admin_major_name, admin_major_code, admin_major_level, admin_major_category, is_major_leader, leader_years, reporter_name, create_by, create_time, update_by, update_time, status, current_level, remark from dc_external_teacher_info
+    </sql>
+
+    <select id="selectDcExternalTeacherInfoList" parameterType="DcExternalTeacherInfo" resultMap="DcExternalTeacherInfoResult">
+        <include refid="selectDcExternalTeacherInfoVo"/>
+        <where>  
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="staffNo != null  and staffNo != ''"> and staff_no = #{staffNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="politicalStatus != null  and politicalStatus != ''"> and political_status = #{politicalStatus}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="education != null  and education != ''"> and education = #{education}</if>
+            <if test="degree != null  and degree != ''"> and degree = #{degree}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="staffType != null  and staffType != ''"> and staff_type = #{staffType}</if>
+            <if test="workUnit != null  and workUnit != ''"> and work_unit = #{workUnit}</if>
+            <if test="workStartDate != null  and workStartDate != ''"> and work_start_date = #{workStartDate}</if>
+            <if test="talentLevel != null  and talentLevel != ''"> and talent_level = #{talentLevel}</if>
+            <if test="talentTitle != null  and talentTitle != ''"> and talent_title = #{talentTitle}</if>
+            <if test="signStatus != null  and signStatus != ''"> and sign_status = #{signStatus}</if>
+            <if test="professionalRank != null  and professionalRank != ''"> and professional_rank = #{professionalRank}</if>
+            <if test="professionalTitle != null  and professionalTitle != ''"> and professional_title = #{professionalTitle}</if>
+            <if test="professionalCertOrg != null  and professionalCertOrg != ''"> and professional_cert_org = #{professionalCertOrg}</if>
+            <if test="professionalCertDate != null  and professionalCertDate != ''"> and professional_cert_date = #{professionalCertDate}</if>
+            <if test="certLevel != null  and certLevel != ''"> and cert_level = #{certLevel}</if>
+            <if test="certName != null  and certName != ''"> and cert_name like concat('%', #{certName}, '%')</if>
+            <if test="certOrg != null  and certOrg != ''"> and cert_org = #{certOrg}</if>
+            <if test="certDate != null  and certDate != ''"> and cert_date = #{certDate}</if>
+            <if test="hasAdminMajor != null  and hasAdminMajor != ''"> and has_admin_major = #{hasAdminMajor}</if>
+            <if test="adminMajorName != null  and adminMajorName != ''"> and admin_major_name like concat('%', #{adminMajorName}, '%')</if>
+            <if test="adminMajorCode != null  and adminMajorCode != ''"> and admin_major_code = #{adminMajorCode}</if>
+            <if test="adminMajorLevel != null  and adminMajorLevel != ''"> and admin_major_level = #{adminMajorLevel}</if>
+            <if test="adminMajorCategory != null  and adminMajorCategory != ''"> and admin_major_category = #{adminMajorCategory}</if>
+            <if test="isMajorLeader != null  and isMajorLeader != ''"> and is_major_leader = #{isMajorLeader}</if>
+            <if test="leaderYears != null "> and leader_years = #{leaderYears}</if>
+            <if test="reporterName != null  and reporterName != ''"> and reporter_name like concat('%', #{reporterName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="currentLevel != null "> and current_level = #{currentLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectDcExternalTeacherInfoById" parameterType="Long" resultMap="DcExternalTeacherInfoResult">
+        <include refid="selectDcExternalTeacherInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDcExternalTeacherInfo" parameterType="DcExternalTeacherInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into dc_external_teacher_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">department_name,</if>
+            <if test="staffNo != null and staffNo != ''">staff_no,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="gender != null and gender != ''">gender,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="politicalStatus != null and politicalStatus != ''">political_status,</if>
+            <if test="nation != null and nation != ''">nation,</if>
+            <if test="education != null and education != ''">education,</if>
+            <if test="degree != null and degree != ''">degree,</if>
+            <if test="position != null">position,</if>
+            <if test="staffType != null and staffType != ''">staff_type,</if>
+            <if test="workUnit != null and workUnit != ''">work_unit,</if>
+            <if test="workStartDate != null and workStartDate != ''">work_start_date,</if>
+            <if test="talentLevel != null">talent_level,</if>
+            <if test="talentTitle != null">talent_title,</if>
+            <if test="signStatus != null">sign_status,</if>
+            <if test="professionalRank != null">professional_rank,</if>
+            <if test="professionalTitle != null">professional_title,</if>
+            <if test="professionalCertOrg != null">professional_cert_org,</if>
+            <if test="professionalCertDate != null">professional_cert_date,</if>
+            <if test="certLevel != null">cert_level,</if>
+            <if test="certName != null">cert_name,</if>
+            <if test="certOrg != null">cert_org,</if>
+            <if test="certDate != null">cert_date,</if>
+            <if test="hasAdminMajor != null and hasAdminMajor != ''">has_admin_major,</if>
+            <if test="adminMajorName != null">admin_major_name,</if>
+            <if test="adminMajorCode != null">admin_major_code,</if>
+            <if test="adminMajorLevel != null">admin_major_level,</if>
+            <if test="adminMajorCategory != null">admin_major_category,</if>
+            <if test="isMajorLeader != null and isMajorLeader != ''">is_major_leader,</if>
+            <if test="leaderYears != null">leader_years,</if>
+            <if test="reporterName != null and reporterName != ''">reporter_name,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="currentLevel != null">current_level,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">#{departmentName},</if>
+            <if test="staffNo != null and staffNo != ''">#{staffNo},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="gender != null and gender != ''">#{gender},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="politicalStatus != null and politicalStatus != ''">#{politicalStatus},</if>
+            <if test="nation != null and nation != ''">#{nation},</if>
+            <if test="education != null and education != ''">#{education},</if>
+            <if test="degree != null and degree != ''">#{degree},</if>
+            <if test="position != null">#{position},</if>
+            <if test="staffType != null and staffType != ''">#{staffType},</if>
+            <if test="workUnit != null and workUnit != ''">#{workUnit},</if>
+            <if test="workStartDate != null and workStartDate != ''">#{workStartDate},</if>
+            <if test="talentLevel != null">#{talentLevel},</if>
+            <if test="talentTitle != null">#{talentTitle},</if>
+            <if test="signStatus != null">#{signStatus},</if>
+            <if test="professionalRank != null">#{professionalRank},</if>
+            <if test="professionalTitle != null">#{professionalTitle},</if>
+            <if test="professionalCertOrg != null">#{professionalCertOrg},</if>
+            <if test="professionalCertDate != null">#{professionalCertDate},</if>
+            <if test="certLevel != null">#{certLevel},</if>
+            <if test="certName != null">#{certName},</if>
+            <if test="certOrg != null">#{certOrg},</if>
+            <if test="certDate != null">#{certDate},</if>
+            <if test="hasAdminMajor != null and hasAdminMajor != ''">#{hasAdminMajor},</if>
+            <if test="adminMajorName != null">#{adminMajorName},</if>
+            <if test="adminMajorCode != null">#{adminMajorCode},</if>
+            <if test="adminMajorLevel != null">#{adminMajorLevel},</if>
+            <if test="adminMajorCategory != null">#{adminMajorCategory},</if>
+            <if test="isMajorLeader != null and isMajorLeader != ''">#{isMajorLeader},</if>
+            <if test="leaderYears != null">#{leaderYears},</if>
+            <if test="reporterName != null and reporterName != ''">#{reporterName},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="currentLevel != null">#{currentLevel},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDcExternalTeacherInfo" parameterType="DcExternalTeacherInfo">
+        update dc_external_teacher_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="departmentName != null and departmentName != ''">department_name = #{departmentName},</if>
+            <if test="staffNo != null and staffNo != ''">staff_no = #{staffNo},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null and gender != ''">gender = #{gender},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="politicalStatus != null and politicalStatus != ''">political_status = #{politicalStatus},</if>
+            <if test="nation != null and nation != ''">nation = #{nation},</if>
+            <if test="education != null and education != ''">education = #{education},</if>
+            <if test="degree != null and degree != ''">degree = #{degree},</if>
+            <if test="position != null">position = #{position},</if>
+            <if test="staffType != null and staffType != ''">staff_type = #{staffType},</if>
+            <if test="workUnit != null and workUnit != ''">work_unit = #{workUnit},</if>
+            <if test="workStartDate != null and workStartDate != ''">work_start_date = #{workStartDate},</if>
+            <if test="talentLevel != null">talent_level = #{talentLevel},</if>
+            <if test="talentTitle != null">talent_title = #{talentTitle},</if>
+            <if test="signStatus != null">sign_status = #{signStatus},</if>
+            <if test="professionalRank != null">professional_rank = #{professionalRank},</if>
+            <if test="professionalTitle != null">professional_title = #{professionalTitle},</if>
+            <if test="professionalCertOrg != null">professional_cert_org = #{professionalCertOrg},</if>
+            <if test="professionalCertDate != null">professional_cert_date = #{professionalCertDate},</if>
+            <if test="certLevel != null">cert_level = #{certLevel},</if>
+            <if test="certName != null">cert_name = #{certName},</if>
+            <if test="certOrg != null">cert_org = #{certOrg},</if>
+            <if test="certDate != null">cert_date = #{certDate},</if>
+            <if test="hasAdminMajor != null and hasAdminMajor != ''">has_admin_major = #{hasAdminMajor},</if>
+            <if test="adminMajorName != null">admin_major_name = #{adminMajorName},</if>
+            <if test="adminMajorCode != null">admin_major_code = #{adminMajorCode},</if>
+            <if test="adminMajorLevel != null">admin_major_level = #{adminMajorLevel},</if>
+            <if test="adminMajorCategory != null">admin_major_category = #{adminMajorCategory},</if>
+            <if test="isMajorLeader != null and isMajorLeader != ''">is_major_leader = #{isMajorLeader},</if>
+            <if test="leaderYears != null">leader_years = #{leaderYears},</if>
+            <if test="reporterName != null and reporterName != ''">reporter_name = #{reporterName},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="currentLevel != null">current_level = #{currentLevel},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDcExternalTeacherInfoById" parameterType="Long">
+        delete from dc_external_teacher_info where id = #{id}
+    </delete>
+
+    <delete id="deleteDcExternalTeacherInfoByIds" parameterType="String">
+        delete from dc_external_teacher_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

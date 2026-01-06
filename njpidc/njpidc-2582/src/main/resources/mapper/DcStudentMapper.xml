@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.mapper.DcStudentMapper">
+    
+    <resultMap id="DcStudentResult" type="edu.njpi.dc.domain.DcStudent">
+        <result property="stuNo" column="stu_no"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="gender" column="gender"/>
+        <result property="tel" column="tel"/>
+        <result property="grade" column="grade"/>
+        <result property="major" column="major"/>
+
+
+    </resultMap>
+    <select id="selectDcStudentList" resultMap="DcStudentResult">
+        select * from dc_student
+    </select>
+</mapper>

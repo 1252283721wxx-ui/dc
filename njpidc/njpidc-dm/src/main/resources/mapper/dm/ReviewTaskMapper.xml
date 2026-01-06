@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.njpi.dc.dm.mapper.ReviewTaskMapper">
+    
+    <resultMap type="ReviewTask" id="ReviewTaskResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="assigneeRole"    column="assignee_role"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="status"    column="status"    />
+        <result property="comment"    column="comment"    />
+        <result property="snapshotJson"    column="snapshot_json"    />
+        <result property="createAt"    column="create_at"    />
+    </resultMap>
+
+    <sql id="selectReviewTaskVo">
+        select id, item_id, assignee_role, dept_id, status, comment, snapshot_json, create_at from dm_review_task
+    </sql>
+
+    <select id="selectReviewTaskList" parameterType="ReviewTask" resultMap="ReviewTaskResult">
+        <include refid="selectReviewTaskVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="assigneeRole != null  and assigneeRole != ''"> and assignee_role = #{assigneeRole}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="snapshotJson != null  and snapshotJson != ''"> and snapshot_json = #{snapshotJson}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectReviewTaskById" parameterType="Long" resultMap="ReviewTaskResult">
+        <include refid="selectReviewTaskVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertReviewTask" parameterType="ReviewTask" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_review_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="assigneeRole != null and assigneeRole != ''">assignee_role,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="status != null">status,</if>
+            <if test="comment != null">comment,</if>
+            <if test="snapshotJson != null">snapshot_json,</if>
+            <if test="createAt != null">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="assigneeRole != null and assigneeRole != ''">#{assigneeRole},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="snapshotJson != null">#{snapshotJson},</if>
+            <if test="createAt != null">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReviewTask" parameterType="ReviewTask">
+        update dm_review_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="assigneeRole != null and assigneeRole != ''">assignee_role = #{assigneeRole},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="snapshotJson != null">snapshot_json = #{snapshotJson},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReviewTaskById" parameterType="Long">
+        delete from dm_review_task where id = #{id}
+    </delete>
+
+    <delete id="deleteReviewTaskByIds" parameterType="String">
+        delete from dm_review_task where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
