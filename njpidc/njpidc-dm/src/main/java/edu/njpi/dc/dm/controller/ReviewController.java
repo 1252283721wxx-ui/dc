@@ -48,5 +48,41 @@ public class ReviewController extends BaseController {
         }
     }
 
+    /**
+     * 部门审核通过
+     */
+    @PostMapping("/dept/approve")
+    @Transactional
+    public AjaxResult deptApprove(Long itemId, String comment) {
+        return toAjax(reviewService.deptApprove(itemId, comment));
+    }
+
+    /**
+     * 部门审核驳回
+     */
+    @PostMapping("/dept/reject")
+    @Transactional
+    public AjaxResult deptReject(Long itemId, String comment) {
+        return toAjax(reviewService.deptReject(itemId, comment));
+    }
+
+    /**
+     * 学校审核通过
+     */
+    @PostMapping("/school/approve")
+    @Transactional
+    public AjaxResult schoolApprove(Long itemId, String comment) {
+        return toAjax(reviewService.schoolApprove(itemId, comment));
+    }
+
+    /**
+     * 学校审核驳回
+     */
+    @PostMapping("/school/reject")
+    @Transactional
+    public AjaxResult schoolReject(Long itemId, String comment) {
+        return toAjax(reviewService.schoolReject(itemId, comment));
+    }
+
 
 }

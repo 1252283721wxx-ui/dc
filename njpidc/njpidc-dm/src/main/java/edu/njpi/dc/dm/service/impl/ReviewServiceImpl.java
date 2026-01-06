@@ -84,4 +84,108 @@ public class ReviewServiceImpl implements IReviewService {
         reviewHistory.setSnapshotJson(snapshot);
         return reviewHistoryService.insertReviewHistory(reviewHistory);
     }
+
+    @Override
+    public int deptApprove(Long itemId, String comment) {
+        // 1. 检查审核项是否存在
+        ReviewItem reviewItem = reviewItemService.selectReviewItemById(itemId);
+        if (reviewItem == null) {
+            throw new RuntimeException("审核项不存在");
+        }
+        // 2. 检查状态是否为SUBMITTED
+        if (!"SUBMITTED".equals(reviewItem.getStatus())) {
+            throw new RuntimeException("审核项状态不正确，当前状态：" + reviewItem.getStatus());
+        }
+        // 3. 更新审核项状态为DEPT_APPROVED
+        reviewItem.setStatus("DEPT_APPROVED");
+        reviewItemService.updateReviewItem(reviewItem);
+        // 4. 关闭部门审核任务
+        closeTaskByItemId(itemId);
+        // 5. 获取当前数据快照
+        Map<String, Object> itemData = getDataTableNameAndPkValue(reviewItem.getTableName(), Long.parseLong(reviewItem.getPkValue()));
+        // 6. 创建学校审核任务
+        saveTask(itemId, "SCHOOL_REVIEWER", null, JSON.toJSONString(itemData), comment);
+        // 7. 记录历史
+        return saveHistory(itemId, "DEPT_APPROVE", SecurityUtils.getUserId(), "DEPT_REVIEWER", comment, JSON.toJSONString(itemData));
+    }
+
+    @Override
+    public int deptReject(Long itemId, String comment) {
+        // 1. 检查审核项是否存在
+        ReviewItem reviewItem = reviewItemService.selectReviewItemById(itemId);
+        if (reviewItem == null) {
+            throw new RuntimeException("审核项不存在");
+        }
+        // 2. 检查状态是否为SUBMITTED
+        if (!"SUBMITTED".equals(reviewItem.getStatus())) {
+            throw new RuntimeException("审核项状态不正确，当前状态：" + reviewItem.getStatus());
+        }
+        // 3. 更新审核项状态为DEPT_REJECTED
+        reviewItem.setStatus("DEPT_REJECTED");
+        reviewItemService.updateReviewItem(reviewItem);
+        // 4. 关闭部门审核任务
+        closeTaskByItemId(itemId);
+        // 5. 获取当前数据快照
+        Map<String, Object> itemData = getDataTableNameAndPkValue(reviewItem.getTableName(), Long.parseLong(reviewItem.getPkValue()));
+        // 6. 记录历史
+        return saveHistory(itemId, "DEPT_REJECT", SecurityUtils.getUserId(), "DEPT_REVIEWER", comment, JSON.toJSONString(itemData));
+    }
+
+    @Override
+    public int schoolApprove(Long itemId, String comment) {
+        // 1. 检查审核项是否存在
+        ReviewItem reviewItem = reviewItemService.selectReviewItemById(itemId);
+        if (reviewItem == null) {
+            throw new RuntimeException("审核项不存在");
+        }
+        // 2. 检查状态是否为DEPT_APPROVED
+        if (!"DEPT_APPROVED".equals(reviewItem.getStatus())) {
+            throw new RuntimeException("审核项状态不正确，当前状态：" + reviewItem.getStatus());
+        }
+        // 3. 更新审核项状态为SCHOOL_APPROVED
+        reviewItem.setStatus("SCHOOL_APPROVED");
+        reviewItemService.updateReviewItem(reviewItem);
+        // 4. 关闭学校审核任务
+        closeTaskByItemId(itemId);
+        // 5. 获取当前数据快照
+        Map<String, Object> itemData = getDataTableNameAndPkValue(reviewItem.getTableName(), Long.parseLong(reviewItem.getPkValue()));
+        // 6. 记录历史
+        return saveHistory(itemId, "SCHOOL_APPROVE", SecurityUtils.getUserId(), "SCHOOL_REVIEWER", comment, JSON.toJSONString(itemData));
+    }
+
+    @Override
+    public int schoolReject(Long itemId, String comment) {
+        // 1. 检查审核项是否存在
+        ReviewItem reviewItem = reviewItemService.selectReviewItemById(itemId);
+        if (reviewItem == null) {
+            throw new RuntimeException("审核项不存在");
+        }
+        // 2. 检查状态是否为DEPT_APPROVED
+        if (!"DEPT_APPROVED".equals(reviewItem.getStatus())) {
+            throw new RuntimeException("审核项状态不正确，当前状态：" + reviewItem.getStatus());
+        }
+        // 3. 更新审核项状态为SCHOOL_REJECTED
+        reviewItem.setStatus("SCHOOL_REJECTED");
+        reviewItemService.updateReviewItem(reviewItem);
+        // 4. 关闭学校审核任务
+        closeTaskByItemId(itemId);
+        // 5. 获取当前数据快照
+        Map<String, Object> itemData = getDataTableNameAndPkValue(reviewItem.getTableName(), Long.parseLong(reviewItem.getPkValue()));
+        // 6. 记录历史
+        return saveHistory(itemId, "SCHOOL_REJECT", SecurityUtils.getUserId(), "SCHOOL_REVIEWER", comment, JSON.toJSONString(itemData));
+    }
+
+    /**
+     * 关闭审核任务
+     */
+    private void closeTaskByItemId(Long itemId) {
+        ReviewTask queryTask = new ReviewTask();
+        queryTask.setItemId(itemId);
+        queryTask.setStatus("OPEN");
+        List<ReviewTask> tasks = reviewTaskService.selectReviewTaskList(queryTask);
+        for (ReviewTask task : tasks) {
+            task.setStatus("CLOSED");
+            reviewTaskService.updateReviewTask(task);
+        }
+    }
 }
